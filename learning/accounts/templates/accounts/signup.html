@@ -1,0 +1,75 @@
+{% extends "base_auth.html" %}
+{% load widget_tweaks %}
+
+{% load static %}
+{% block content%}
+<style>
+  @keyframes marquee {
+  0%   { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.animate-marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 15s linear infinite;
+}
+</style>
+<div class="relative min-h-screen w-ful">
+    <video autoplay muted loop class="absolute inset-0 w-full h-full object-cover">
+        <source src="/static/videos/loop1.mp4" type="video/mp4">
+    </video>
+    <div class=" min-h-screen flex items-center py-20 justify-center bg-violet-100 pt-1 p-2">
+       
+        <div class="max-h-screen w-full max-w-sm bg-opacity-20 backdrop-blur-3xl rounded-xl drop-shadow-xl hover:shadow-2xl">
+             <div class="absolute top-10 w-full animate-marquee bg-opacity-100">
+                    <p class="text-white text-sm font-bold italic animate-slide">
+                        Your Journey Of Flexible Learning & Endless Possibilities Starts Right Here.
+                    </p>
+        </div>
+             <div class="flex justify-center pt-4">
+                    <img src="{% static 'images/p7.png' %}" class="w-32 h-32 object-contain">
+            </div>
+            
+            <h2 class="text-sm font-bold text-center text-white italic tracking-wide">Signup</h2>
+            
+            <form method="POST" class="space-y-1 p-2 bg-opacity-500 backdrop-blur-md">
+                {% csrf_token%}
+                {{ form.non_field_error }}
+                {% if form.errors %}
+                <ul class="text-sm text-white">
+                    {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <li>{{ field }}: {{ error }}</li>
+                    {% endfor %}
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <div>
+                    <label class="block text-sm italic font-medium text-violet-950 mb-1">Username</label>
+                    {{ form.username|add_class:"w-full px-3 py-2 border border-violet-300 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"}}
+                </div>
+                
+                <div>
+                    <label class="block text-sm italic font-medium text-violet-950 mb-1">Email</label>
+                    {{ form.email|add_class:"w-full px-3 py-2 border border-violet-300 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"}}
+                </div>
+
+                <div>
+                    <label class="block text-sm italic font-medium text-violet-950 mb-1">Password</label>
+                    {{ form.password1|add_class:"w-full px-3 py-2 border border-violet-300 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 "}}
+                </div>
+                <div>
+                    <label class="block text-sm italic font-medium text-violet-950 mb-1">Confirm Password</label>
+                    {{ form.password2|add_class:"w-full px-3 py-2 border border-violet3500 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 "}}
+
+                </div>
+                <button type="submit" class="w-full bg-violet-900 text-white text-sm italic py-2 rounded-lg hover:bg-violet-950 transition">Sign Up</button>
+            </form>
+            <p class="text-center font-bold text-sm italic text-white">
+                Already have an acount? <a href="{% url 'login' %}" class="text-violet-950 font-bold hover:underline hover:bg-violet-900 hover:text-white">Login</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

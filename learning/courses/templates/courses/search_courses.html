@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="w-full h-screen flex-col overflow-x-hidden justify-center text-center items-center pt-10 bg-pink-100">
+    <div class="w-full py-4 px-6">
+        {% if results %}
+        <h2 class="text-center italic text-sm text-violet-900 font-semibold mb-4">Results for "{{ query }}"
+        </h2>
+         
+        <ul class="space-y-4 bg-violet-200 rounded-2xl border-s-mauve-100">
+            {% for course in results %}
+            <li class="p-4 border rounded-md hover:shadow-2xl hover:shadow-violet-900">
+                <h3 class="text-sm text-violet-900 font-bold">{{ course.title }}</h3>
+                <p class="text-violet-900 italic">{{ course.description|truncatewords:30 }}</p>
+            </li>
+             {% endfor %}
+        </ul>
+        {% else %}
+            <p class="text-violet-950 font-semibold text-sm italic text-center">No results found!!</p>
+            {% endif %}
+        
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html"%}
+{% load static %}
+{% block content%}
+
+    <div class="flex flex-col min-h-screen items-center justify-center px-6 bg-pink-100">
+        <div class="bg-pink-100 rounded-lg shadow-md py-12 w-screen h-screen">
+            {% if courses %}
+              <div class="border border-white gap-2 w-full">
+                  <h3 class="text-sm text-violet-900 font-semibold mb-4 text-center"><span class="text-sm text-violet-500 mb-4 text-center">Welcome {{ user.username }},</span> <span>browse available courses and get enrolled or</span>
+                    <a href="{% url 'enrolled_courses' %}" 
+                    class="bg-violet-800 hover:bg-violet-950 ml-6 text-white text-xs px-4 py-2 rounded-lg shadow-md transition duration-300">
+                    View your enrolled courses
+                    </a>
+                </h3>
+                  
+                </div>        
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-2 px-16">
+                    {% for course in courses %}
+                    <div class="bg-purple-200 shadow-md rounded-lg p-4 flex flex-col items-center hover:shadow-violet-950 transition">
+
+                        {% if course.image %}
+                            <img src="{{ course.image.url }}" alt="{{ course.title }}" 
+                                class="w-full h-40 object-cover rounded-md mb-3">
+                        {% else %}
+                            <div class="w-full h-28 bg-violet-200 flex items-center justify-center rounded-md mb-3">
+                                <span class="text-violet-900 text-xs">No Image Available</span>
+                            </div>
+                        {% endif %}
+
+                        <h4 class="text-sm font-bold text-violet-900 mb-2 text-center">{{ course.title }}</h4>
+                        <p class="text-xs text-violet-800 font-bold mb-1 text-center">Instructor: {{ course.instructor }}</p>
+                        <p class="text-xs text-gray-700 italic mb-4 text-center">{{ course.description }}</p>
+
+                        <div class="mt-auto flex justify-center">
+                            <a href="{% url 'course_details' course.id %}" 
+                            class="text-xs bg-violet-800 text-white px-3 py-1 mb-8 rounded hover:bg-violet-950 transition">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-gray-600 text-center">No courses available yet.</p>
+            {% endif %}
+        </div>
+    </div>
+    
+{% endblock%}

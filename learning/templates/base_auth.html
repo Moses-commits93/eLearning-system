@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel="icon" href="{% static 'images/elgo.png' %}" type="image/png">
+            <title>E - Learning</title>
+            <link href="{% static 'css/output.css' %}" rel="stylesheet">
+    </head>
+    <body class="h-screen w-screen overflow-x-hidden flex flex-cols">
+        <header>
+
+        </header>
+        <main class="grow flex flex-col min-h-screen w-screen">
+            {% if messages %}
+            <div class="messages">
+                {% for message in messsages %}
+                <div class="{{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% block content %}{% endblock %}
+
+        </main>
+
+    </body>
+
+</html>

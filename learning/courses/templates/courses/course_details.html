@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="w-full bg-pink-100 pt-10 pb-8 border-2">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+    <!-- Column 1: Course Info -->
+    <div class="bg-purple-200 shadow rounded text-sm text-center hover:shadow-2xl hover:shadow-violet-800">
+      <div class="border border-white mb-2 ">
+      <h2 class="text-violet-950 mb-4 italic font-medium">Course: {{ course.title }}</h2>
+      <p class="text-violet-950 mb-2 italic">Instructor: {{ course.instructor }}</p>
+      <p class="text-violet-950 mb-6 italic">{{ course.description }}</p>
+      </div>
+
+      <!-- Learning Outcomes -->
+      <div class="border rounded-md mb-4">
+        <button
+          class="flex justify-between p-2 items-center w-full text-left text-white font-medium bg-violet-500 hover:bg-violet-800 rounded-2xl"
+          onclick="toggleDetails('{{ course.id }}')">
+          <span class="text-sm font-semibold italic text-violet-50">What you’ll learn</span>
+          <svg id="arrowIcon-{{ course.id }}" class="w-5 h-5 transform transition-transform duration-200"
+              fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div id="detailsBox-{{ course.id }}" class="hidden px-4 py-2 text-violet-500 italic">
+          {% if course.learning_outcomes %}
+          <div class="border-b border-b-white">
+            <h4 class="text-violet-800 text-left font-semibold mt-4">You Learn The Following In This Course.</h4>
+          </div>
+            <ul class="list-disc ml-6 text-left italic text-violet-800 text-sm space-y-1">
+              {% for outcomes in course.learning_outcomes.splitlines %}
+                {% if outcomes %}
+                  <li class="pl-2 mt-3">{{ outcomes }}</li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="italic text-violet-500">Learning outcomes coming soon...</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Back & Enroll -->
+      <div class="flex flex-col items-center gap-2">
+        <a href="{% url 'dashboard' %}" class="text-violet-950 italic text-sm hover:underline">Back to Dashboard</a>
+        <form action="{% url 'enroll' course.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="bg-violet-600 text-white italic hover:bg-violet-900 text-sm px-4 py-2 rounded">
+            Enroll
+          </button>
+        </form>
+      </div>
+
+      <!-- Course Materials -->
+      <div class="mt-4 space-y-2">
+        {% if course.pdf and enrolled %}
+          <a href="{{ course.pdf.url }}" class="text-sm italic text-violet-900 hover:underline">Download PDF</a>
+        {% endif %}
+        {% if course.video and enrolled %}
+          <video controls class="w-full rounded">
+            <source src="{{ course.video.url }}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        {% endif %}
+        {% if course.video_url and enrolled %}
+          <p>
+            <a href="{{ course.video_url }}" target="_blank" class="text-violet-900 text-sm hover:underline italic">
+              Watch lesson on YouTube
+            </a>
+          </p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Column 2: Lessons -->
+    <div class="bg-purple-200 p-6 rounded shadow hover:shadow-2xl hover:shadow-violet-800">
+      <div class="border-b border-b-white">
+      <h3 class="text-violet-900 text-center font-medium italic mb-4">Lessons</h3>
+      </div>
+      <ul class="list-disc ml-6 space-y-2 text-sm italic text-violet-800">
+        {% for lesson in lessons %}
+          <li>
+            <a href="{% url 'view_lesson' lesson.id %}" class="hover:underline">{{ lesson.title }}</a>
+            {% for p in progress %}
+              {% if p.lesson.id == lesson.id %}
+                - <span class="italic text-gray-600">{{ p.Learning_status }}
+                ({{ p.percentage_complete|floatformat:0 }}%)</span>
+              {% endif %}
+            {% endfor %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- Column 3: Progress Overview -->
+    <div class="bg-purple-200 p-6 rounded shadow hover:shadow-2xl hover:shadow-violet-800">
+      <div class="border-b border-b-white w-full">
+      <h3 class="text-violet-900 font-medium italic text-center mb-4">Progress Overview</h3>
+      </div>
+      <p class="italic text-violet-900 font-semibold text-sm">
+        Enrollment Status: <span class="badge bg-info text-gray-500">{{ status }}</span>
+      </p>
+      <p class="italic text-violet-900 font-semibold text-sm">
+        Learning Status: <span class="badge bg-info text-gray-500">{{ Learning_status }}</span>
+      </p>
+      <p class="italic text-violet-900 font-semibold text-sm">
+        Overall Progress: <span class="badge bg-info text-gray-500">{{ overall_progress|floatformat:0 }}%</span>
+      </p>
+      <div class="w-full bg-violet-500 rounded-full h-2.5 mt-2">
+        <div class="bg-violet-600 h-2.5 rounded-full"
+            style="width: {{ overall_progress|floatformat:0 }}%">
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function toggleDetails(courseId) {
+  const box = document.getElementById("detailsBox-" + courseId);
+  const arrow = document.getElementById("arrowIcon-" + courseId);
+  box.classList.toggle("hidden");
+  arrow.classList.toggle("rotate-180");
+}
+</script>
+
+<script>
+setTimeout(function(){
+  const messages = document.getElementById("messages");
+  if (messages){
+    messages.style.transition = "opacity 1s ease";
+    messages.style.opacity= "0";
+    setTimeout(() => { messages.remove(); },1000);
+  }
+},2000);
+</script>
+{% endblock %}

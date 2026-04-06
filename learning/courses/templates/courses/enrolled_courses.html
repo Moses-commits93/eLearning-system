@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="flex flex-col min-h-screen flex-center justify-center items-center w-full">
+        {% if enrollments %}
+            <div class="grid grid-cols-1 md:grid-cols-0 gap-2 w-full rounded-3xl">
+              <h2 class="text-sm text-center text-violet-950 mb-4">You're enrolled on the following courses</h2>
+          {% for enrollment in enrollments %}
+                <div class="bg-purple-200 border-b-2 border-t-2 hover:shadow-2xl hover:shadow-violet-800 rounded-2xl p-4">
+                <h3 class="text-sm text-violet-900 text-center font-semibold">Course Title: {{ enrollment.courses.title }}</h3>
+                <p class="text-gray-600 text-sm text-center italic">{{ enrollment.courses.description|truncatewords:20 }}</p>
+                <p class="text-sm text-violet-900 text-center italic mt-2">Enrolled on: {{ enrollment.enrolled_at|date:"F j, Y, g:i a " }}</p>
+                <div class="flex justify-center gap-6">
+                <a href="{% url 'course_details' enrollment.courses.id %}" class="mt-3 w-45 h-6 inline-block bg-violet-800 hover:bg-violet-950 text-white text-sm px-2 rounded">Go to course
+                </a>
+                <a href="{% url 'course_progress' enrollment.courses.id %}" class=" mt-3 w-45 h-6 inline-block bg-violet-800 hover:bg-violet-950 text-white text-sm px-2 rounded">View progress
+                </a> 
+                </div>
+            </div>
+          {% endfor %}
+        </div>
+        {% elif user.is_staff or user.is_superuser %}
+        <p class="text-gray-600 text-center text-sm">Admins cannot enroll in courses</p>
+        {% else %}
+        <p class="text-gray-600 text-center text-sm">You haven't enrolled in any courses yet.</p>
+        {% endif%}
+</div>
+{% for enrollment in enrollments %}
+  <div class="bg-violet-50 py-4 mt-2 w-1/2 mx-auto">
+    <h3 class="text-lg font-semibold">{{ enrollment.course.title }}</h3>
+    <p class="text-gray-600">{{ enrollment.course.description|truncatewords:20 }}</p>
+    
+    {% if enrollment.status == "approved" and enrollment.course %}
+      <span class="text-green-800"> Enrollment Approved For {{ enrollment.course.title}}</span>
+      <a href="{% url 'course_details' enrollment.course.id %}" 
+         class="mt-3 inline-block bg-blue-500 text-white px-4 py-2 hover:bg-red-400 rounded transition duration-300 ease-in-out">
+         Go to course
+      </a>
+    {% elif enrollment.status == "pending" and enrollment.course %}
+      <span class="text-yellow-500 text-sm font-semibold">
+        Awaiting Admin's Approval for {{ enrollment.course.title}}</span>
+    {% elif enrollment.status == "rejected" and enrollment.course %}
+      <p class="text-red-500 mt-3 text-sm">
+        Enrollement Rejected For {{ enrollment.course.title}}</p>
+    {% endif %}
+  </div>
+{% endfor %}
+{% endblock %}

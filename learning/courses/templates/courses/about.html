@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+@keyframes moveLeft {
+  0%   { transform: translateX(-100%);}
+  100% { transform: translateX(100%);}
+}
+@keyframes moveRight {
+  0%   { transform: translateX(100%);}
+  100% { transform: translateX(-100%);}
+}
+
+.animate-right {
+  animation: moveRight 12s linear infinite;
+}
+.animate-left {
+  animation: moveLeft 12s linear infinite;
+}
+</style>
+
+<div class="flex flex-col min-h-screen w-full">
+  <div class="flex-none w-screen">
+    <!-- Carousel wrapper -->
+    <div class=" w-screen absolute inset-0 overflow-hidden h-screen">
+      <div id="carousel" class="flex transition-transform duration-700 ease-in-out h-screen">
+        <!-- Slide 1 -->
+        <div class="flex-none w-screen h-screen">
+          <img src="{% static 'images/ab5.jpg' %}" class="w-full h-full object-cover" alt="About Image 1">
+        </div>
+        <!-- Slide 2 -->
+        <div class="flex-none w-screen h-screen">
+          <img src="{% static 'images/ab2.jpg' %}" class="w-full h-full object-cover" alt="About Image 2">
+        </div>
+        <!-- Slide 3 -->
+        <div class="flex-none w-screen h-screen">
+          <img src="{% static 'images/ab1.jpg' %}" class="w-full h-full object-cover" alt="About Image 3">
+        </div>
+      </div>
+    </div>
+
+    <!-- Animated slogans -->
+    <div class="relative h-12 text-white pt-12">
+      <p class="animate-right absolute right-0 whitespace-nowrap text-sm font-bold italic">
+        Learn. Grow. Achieve. Your journey starts here. Knowledge is power - unlock yours today.
+      </p>
+    </div>
+    <div class="relative h-12 text-pink-300 pt-4">
+      <p class="animate-left absolute left-0 whitespace-nowrap text-sm font-bold italic">
+        Flexible learning, endless possibilities. Discover skills that move you forward.
+      </p>
+    </div>
+
+    <!-- Overlay -->
+    <div class="flex-none w-screen h-screens absolute inset-0 bg-black bg-opacity-40 pointer-events-none"></div>
+
+    <!-- About Us content -->
+    <div class="relative z-10 flex flex-col items-center justify-center w-full text-center text-white px-6">
+      <h1 class="text-2xl font-extrabold italic text-purple-400 mb-6">About Us</h1>
+      <div class="border-b border-b-white mb-8 w-full flex justify-center">
+      <p class="text-base italic max-w-3xl text-center">
+        Welcome to <span class="font-semibold">E-Learning</span>... <br/>
+        Your gateway to modern online education. We provide interactive courses, expert instructors, and a seamless learning experience.
+      </p>
+    </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full px-6">
+        <div class="bg-pink-100 shadow-md rounded-lg p-6 hover:shadow-violet-800 hover:shadow-2xl transition">
+          <div class="border-2 border-purple-200" >
+          <h3 class="text-xs font-bold text-center italic text-violet-900 mb-3">Our Mission</h3>
+          </div>
+          <div class="border-b-2 border-b-white">
+          <p class="text-sm italic text-gray-700">To empower learners worldwide with accessible, high-quality education.</p>
+          </div>
+        </div>
+
+        <div class="bg-purple-200 shadow-md rounded-lg p-6 hover:shadow-violet-800 hover:shadow-2xl transition">
+          <div class="border-2 border-pink-100" >
+          <h3 class="text-xs font-bold text-center italic text-violet-900 mb-3">Our Vision</h3>
+          </div>
+          <div class="border-b-2 border-b-white">
+          <p class="text-sm italic text-gray-700">A future where knowledge is shared freely and learning never stops.</p>
+          </div>
+        </div>
+        <div class="bg-pink-200 shadow-md rounded-lg p-6 hover:shadow-violet-800 hover:shadow-2xl transition">
+          <div class="border-2 border-purple-100" >
+          <h3 class="text-xs font-bold text-center italic text-violet-900 mb-3">Our Values</h3>
+          </div>
+          <div class="border-b-2 border-b-white">
+          <p class="text-sm italic text-gray-700">Innovation, inclusivity, and excellence in every course we deliver.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+      <script>
+    const carousel = document.getElementById('carousel');
+    let index = 0;
+    const total = carousel.children.length;
+
+    setInterval(() => {
+      index = (index + 1) % total;
+      carousel.style.transform = `translateX(-${index * 100}%)`;
+    }, 4000);
+    </script>
+</div>
+
+
+
+{% endblock %}

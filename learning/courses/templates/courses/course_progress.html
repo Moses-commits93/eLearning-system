@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+
+  <div class="min-h-screen bg-pink-100 flex flex-col items-center justify-start py-12 px-6">  
+      <div class="w-full max-w-3xl text-center mb-8">
+        <h2 class="text-sm font-extrabold text-violet-950 tracking-wide mb-2">
+          {{ course.title }}
+        </h2>
+        <p class="text-violet-950 italic">Hey {{user.username }}, Your learning progress overview</p>
+      </div>
+
+      
+      <div class="w-full max-w-2xl bg-purple-200 shadow-lg hover:shadow-violet-900 rounded-xl p-6">
+        <p class="text-sm italic font-semibold text-violet-950 mb-4">
+          Overall Progress: {{ enrollment.overall_progress|floatformat:0 }}%
+        </p>
+
+        <!-- Progress Bar -->
+        <div class="w-full bg-violet-200 rounded-full h-6 mb-4">
+          <div class="bg-violet-300 h-6 rounded-full flex items-center justify-center text-white text-sm font-bold"
+              style="width: {{ progress_percent }}%;">
+            {{ enrollment.overall_progress|floatformat:0 }}%
+          </div>
+      </div>
+  </div>
+{% endblock %}

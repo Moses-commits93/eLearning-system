@@ -1,0 +1,50 @@
+{% extends "base_auth.html"%}
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+
+<style>
+  @keyframes marquee {
+  0%   { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.animate-marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 25s linear infinite;
+}
+</style>
+    <div class="relative min-h-screen bg-violet-100">
+        <video autoplay muted loop class="absolute inset-ring-0 w-full h-full object-cover">
+            <source src="{% static 'videos/loop3.mp4'%}" type="video/mp4">
+        </video>
+         <div class="absolute top-10 w-full animate-marquee bg-opacity-100">
+                    <p class="text-white text-sm font-bold italic animate-slide">
+                        Welcome To E-Learning - Knowledge Is Power Unlock Yours Today!
+        </div>
+        <div class="relative z-10 flex flex-col items-center justify-center min-h-screen py-2">
+            <div class="w-full max-w-md hover:shadow-2xl bg-opacity-20 backdrop-blur-lg rounded-lg shadow-md p-1">               
+                <div class="flex justify-center mb-6">
+                    <img src="{% static 'images/p8.png' %}" class="w-32 h-32 object-contain">
+                </div>
+                <h2 class="text-sm font-bold text-center text-white italic">Login</h2>
+                <form method="POST" class="space-y-4 bg-opacity-500 backdrop-blur-md">
+                    {% csrf_token %}
+                    {{ form.non_field_error}}
+                    <div>
+                        <label class="block text-sm italic font-medium text-violet-900">Username</label>
+                        {{ form.username|add_class:"w-full px-3 py-2 border border-violet-300 rounded-lg focus:outline-none text-white font-bold text-sm focus:ring-2 focus:ring-violet-500"}}
+                    </div>
+                    <div>
+                    <label class="block text-sm italic font-medium text-violet-900">Password</label>
+                    {{ form.password|add_class:"w-full px-3 py-2 border text-white font-bold border-violet-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"}}
+                    </div>
+                    <button type="submit" class="w-full bg-violet-900 text-white text-sm py-2 rounded-lg hover:bg-violet-950 transition">Login</button>
+                </form>
+                <p class="mt-4 text-center text-sm font-bold italic text-white">Don't have an account? <a href="{% url 'signup' %}" class="text-violet-950 font-bold hover:underline hover:text-white hover:bg-violet-900">Sign up.  </a>Forgot password? 
+                    <a href="{% url 'password_reset' %}" class="hover:text-white text-violet-950 hover:underline">reset</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

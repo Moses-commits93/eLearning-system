@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-6xl mx-auto p-6">
+    <!-- Page Grid -->
+    <div class="grid grid-cols-1 gap-6">
+
+        <!-- Lesson Title -->
+        <h2 class="text-violet-900 font-semibold text-2xl italic pt-2 text-center mb-4">
+            {{ lesson.title }}
+        </h2>
+
+        <!-- Lesson Content -->
+        <div class="flex items-center justify-center bg-violet-120 p-6 rounded-lg shadow">
+            <div class="text-gray-700 leading-relaxed">
+                {{ lesson.content|linebreaks }}
+            </div>
+        </div>
+
+        <!-- Progress Status -->
+        <div class="flex flex-col items-center justify-center bg-violet-200 p-6 rounded-lg shadow">
+            {% if enrollment.Learning_status == "complete" %}
+                <p class="text-green-600 font-semibold italic mb-4">
+                    Status: Completed ✅
+                </p>
+            {% else %}
+                <p class="text-violet-900 italic mb-4">
+                    Status: In Progress
+                </p>
+                <form method="post" action="{% url 'complete_lesson' lesson.id %}">
+                    {% csrf_token %}
+                    <button type="submit"
+                        class="bg-violet-500 text-white italic hover:bg-violet-900 text-sm px-4 py-2 rounded">
+                        Mark as Complete
+                    </button>
+                </form>
+            {% endif %}
+        </div>
+
+        <!-- Overall Course Progress -->
+        <div class="bg-violet-300 p-6 rounded-lg shadow">
+            <p class="italic mb-2">
+                Overall Progress: {{ enrollment.overall_progress|floatformat:0 }}%
+            </p>
+            <div class="w-full bg-violet-200 rounded-full h-2.5">
+                <div class="bg-violet-600 h-2.5 rounded-full"
+                     style="width: {{ enrollment.overall_progress|floatformat:0 }}%">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

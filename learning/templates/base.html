@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="{% static 'images/elgo.png' %}" type="image/png">
+    <title>E-Learning</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+</head>
+<body class="h-screen flex-none overflow-x-hidden flex-col bg-pink-100">
+  <header>
+  </header>
+  <main class="grow p-6 w-screen">
+ 
+  <nav class="bg-violet-950 text-white fixed top-0 left-0 w-full shadow z-50">
+  <div class="flex items-center justify-between px-4 h-14">
+    
+    <!-- Logo + Title -->
+    <div class="flex items-center">
+      <img src="{% static 'images/elgo.jpg' %}" alt="Logo" class="h-10 mr-3">
+      <a href="{% url 'dashboard' %}" class="text-xl font-bold">E-Learning</a>
+    </div>
+
+    <!-- Search bar -->
+    <div class="flex flex-1 justify-center mx-4">
+      <form method="GET" action="{% url 'search_courses' %}" class="flex w-full max-w-md">
+        <input type="text" name="q" placeholder="Search courses..."
+               class="flex-grow px-3 border py-1 rounded-l-md focus:outline-none focus:ring-violet-500">
+        <button type="submit"
+                class="px-4 bg-violet-950 text-white rounded-r-md hover:bg-violet-900">
+          Search
+        </button>
+      </form>
+    </div>
+
+    <!-- Hamburger (always visible) -->
+    <div class="relative flex items-center">
+      <button id="mobile-menu-button" class="focus:outline-none">
+        <!-- Proper 3-line hamburger -->
+        <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Full-width dropdown under hamburger -->
+  <div id="mobile-menu" class="hidden absolute text-right right-0 w-full bg-violet-950 text-white flex flex-col shadow-lg">
+    <a href="{% url 'dashboard' %}" class="px-4 py-2 hover:text-yellow-300 rounded-2xl">Dashboard</a>
+    <a href="{% url 'about' %}" class="px-4 py-2 hover:text-yellow-300">About</a>
+    <a href="/admin" class="px-4 py-2 hover:text-yellow-300">Admin</a>
+    <form action="{% url 'logout' %}" method="post" class="inline">
+      {% csrf_token %}
+      <button type="submit" class="w-full text-right rounded-2xl px-4 py-2 hover:text-yellow-300">Logout</button>
+    </form>
+  </div>
+</nav>
+
+<script>
+  const menuBtn = document.getElementById("mobile-menu-button");
+  const menu = document.getElementById("mobile-menu");
+  menuBtn.addEventListener("click", () => {
+    menu.classList.toggle("hidden");
+    });
+    
+    document.addEventListener('click', (event) =>{
+      if (!menu.contains(event.target) && !menuBtn.contains(event.target)){
+        menu.classList.add('hidden');
+      }
+    });
+  
+</script>
+
+<script>
+  const menuBtn = document.getElementById("mobile-menu-button");
+  const menu = document.getElementById("mobile-menu");
+  menuBtn.addEventListener("click", () => {
+    menu.classList.toggle("hidden");
+  });
+</script>
+
+<script>
+  const menuBtn = document.getElementById("mobile-menu-button");
+  const menu = document.getElementById("mobile-menu");
+  menuBtn.addEventListener("click", () => {
+    menu.classList.toggle("hidden");
+  });
+</script>
+
+<script>
+  const menuBtn = document.getElementById("mobile-menu-button");
+  const menu = document.getElementById("mobile-menu");
+  menuBtn.addEventListener("click", () => {
+    menu.classList.toggle("hidden");
+  });
+</script>
+
+<script>
+  const menuBtn = document.getElementById("mobile-menu-button");
+  const menu = document.getElementById("mobile-menu");
+  menuBtn.addEventListener("click", () => {
+    menu.classList.toggle("hidden");
+  });
+</script>
+
+<script>
+  const menuBtn = document.getElementById("mobile-menu-button");
+  const menu = document.getElementById("mobile-menu");
+  menuBtn.addEventListener("click", () => {
+    menu.classList.toggle("hidden");
+  });
+</script>
+
+<script>
+  const menuBtn = document.getElementById("mobile-menu-button");
+  const menu = document.getElementById("mobile-menu");
+  menuBtn.addEventListener("click", () => {
+    menu.classList.toggle("hidden");
+  });
+</script>
+
+<script>
+  const menuBtn = document.getElementById("mobile-menu-button");
+  const menu = document.getElementById("mobile-menu");
+  menuBtn.addEventListener("click", () => {
+    menu.classList.toggle("hidden");
+  });
+</script>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="hidden bg-violet-950 text-white px-4 pb-4 space-y-2 md:hidden">
+  <a href="{% url 'dashboard' %}" class="block hover:text-gray-400">Dashboard</a>
+  <a href="/admin" class="block hover:text-gray-400">Admin</a>
+  <form action="{% url 'logout' %}" method="post" class="inline">
+    {% csrf_token %}
+    <button type="submit" class="block hover:text-gray-400">Logout</button>
+  </form>
+</div>
+
+<script>
+  const menuBtn = document.getElementById("mobile-menu-button");
+  const menu = document.getElementById("mobile-menu");
+  menuBtn.addEventListener("click", () => {
+    menu.classList.toggle("hidden");
+  });
+</script>
+    {% block content %}{% endblock %}
+       {% if messages %}
+  <div class=" w-1/4  messages text-center border border-white bg-yellow-100 text-violet-950 font-semibold italic" id="messages">
+    {% for message in messages %}
+      <div class="{{ message.tags }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<script>
+setTimeout(function(){
+  const messages = document.getElementById("messages");
+  if (messages){
+    messages.style.transition = "opacity 1s ease";
+    messages.style.opacity= "0";
+    setTimeout(() => { messages.remove(); },1000);
+  }
+},2000);
+</script>
+<script>
+  const btn = document.getElementById('mobile-menu-button');
+  const menu = document.getElementById('mobile-menu');
+  btn.addEventListener('click', () => {
+    menu.classList.toggle('hidden');
+  });
+</script>
+<footer class="bg-violet-950 fixed bottom-0 mt-auto w-screen text-white py-2">
+  <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between text-sm">
+    
+    <!-- Branding -->
+    <div class=" md:mb-0">
+      <span class="font-bold italic">E-Learning</span> © 2026 | all rights reserved
+    </div>
+
+    <!-- Quick Links -->
+    <div class="flex space-x-4 mb-2 md:mb-0">
+      <a href="{% url 'about' %}" class="hover:text-yellow-300 transition">About</a>
+      <a href="{% url 'signup' %}" class="hover:text-yellow-300 transition">Sign Up</a>
+      <a href="{% url 'login' %}" class="hover:text-yellow-300 transition">Login</a>
+    </div>
+
+    <!-- Social -->
+    <div class="flex space-x-4">
+      <a href="#" class="hover:text-yellow-300 transition">Facebook</a>
+      <a href="#" class="hover:text-yellow-300 transition">Twitter</a>
+      <a href="#" class="hover:text-yellow-300 transition">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+  </main>
+
+</body>
+</html>
