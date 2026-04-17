@@ -21,6 +21,7 @@ from courses.views import index
 from courses import views as course_views
 from accounts.views import signup_view
 from django.conf.urls.static import static
+from . import views
 
 
 urlpatterns = [

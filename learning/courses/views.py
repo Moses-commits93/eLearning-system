@@ -8,6 +8,7 @@ from django.http import FileResponse,Http404,HttpResponseForbidden
 from django.conf import settings
 import os
 from django.db.models import Avg
+from django.http import HttpResponse
 
 @login_required
 def view_lesson(request, lesson_id):
@@ -51,7 +52,8 @@ def view_lesson(request, lesson_id):
 
 
 def index(request):
-    return render(request, "courses/index.html")
+    return HttpResponse("Hello world! Django is serving contents live.")
+    #return render(request, "courses/index.html")
 
 @login_required
 def course_details(request, course_id):
