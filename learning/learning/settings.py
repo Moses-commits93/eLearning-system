@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-ag^vi4-+lv7sm267^ptrmf!yltulp(o(844-%2w92*ll#7bw^)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mos-elearning-system.onrender.com']
 
 
 # Application definition
@@ -54,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
 ROOT_URLCONF = 'learning.urls'
@@ -81,10 +82,18 @@ WSGI_APPLICATION = 'learning.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
+#DATABASES = {
+ #   'default': dj_database_url.config(
+ #       default=os.environ.get('DATABASE_URL')
+   # )
+#}
+
 
 
 # Password validation
@@ -124,7 +133,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT  = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [BASE_DIR / "static"]
-
+STATICFILES_STORAGE ='whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 LOGIN_REDIRECT_URL='/accounts/dashboard.html/'
 MEDIA_URL = '/media/'
